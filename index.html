@@ -22,7 +22,7 @@
 
         // Icônes pour les stations accessibles et non accessibles
         var greenIcon = L.icon({
-            iconUrl: 'https://cnpm0.github.io/pmrmarseillestations/vert.png',
+            iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
             iconSize: [25, 41],
             iconAnchor: [12, 41],
@@ -31,7 +31,7 @@
         });
 
         var redIcon = L.icon({
-            iconUrl: 'https://cnpm0.github.io/pmrmarseillestations/rouge.png',
+            iconUrl: 'https://www.iconsdb.com/icons/preview/red/marker-xxl.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
             iconSize: [25, 41],
             iconAnchor: [12, 41],
@@ -44,8 +44,11 @@
             .then(response => response.json())
             .then(data => {
                 data.forEach(station => {
+                    var status = station.accessible ? 'accessible' : 'non accessible';
+                    var popupContent = `${station.name} <br> Station ${status} depuis le ${station.date}`;
+
                     L.marker([station.lat, station.lng], {icon: station.accessible ? greenIcon : redIcon})
-                        .bindPopup(station.name)
+                        .bindPopup(popupContent)
                         .addTo(map);
                 });
             })
