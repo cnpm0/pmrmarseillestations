@@ -1,18 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Carte de Métro Accessible</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <style>
-        #map { height: 80vh; }
-        #coords { margin: 20px; font-size: 14px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Carte Réactive et Accessible</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<style>
+    body, html { height: 100%; margin: 0; font-family: Arial, sans-serif; }
+    #map { height: 90%; }
+
+    /* Bouton plein écran et changement de thème */
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 5px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+
+    .fullscreen-btn { background-color: #007bff; color: white; }
+    .theme-btn { background-color: #28a745; color: white; }
+
+    /* Thème clair */
+    body.light-mode { background-color: #ffffff; color: #000000; }
+    .leaflet-popup-content { color: inherit; }
+    .leaflet-popup-content-wrapper { background: #ffffff; color: #000000; }
+    .leaflet-popup-tip { background: #ffffff; }
+
+    /* Thème sombre */
+    body.dark-mode { background-color: #000000; color: #ffffff; }
+    .leaflet-container { background: #333333; }
+    .leaflet-popup-content-wrapper.dark { background: #333333; color: #ffffff; }
+    .leaflet-popup-tip.dark { background: #333333; }
+
+    /* Media queries pour différentes tailles d'écran */
+    @media (max-width: 600px) {
+      #map { height: 80vh; }
+      .leaflet-popup-content { font-size: 14px; }
+    }
+    
+    @media (min-width: 600px) and (max-width: 1200px) {
+      #map { height: 85vh; }
+      .leaflet-popup-content { font-size: 16px; }
+    }
+    
+    @media (min-width: 1200px) {
+      #map { height: 90vh; }
+      .leaflet-popup-content { font-size: 18px; }
+    }
+  </style>
+
 </head>
 <body>
-    <div id="map"></div>
-    <div id="coords">Cliquez sur la carte pour obtenir les coordonnées.</div>
+<body class="light-mode">
+  <div id="map"></div>
+<!--  <div class="button-container">
+    <button class="fullscreen-btn" onclick="toggleFullScreen()">Plein écran</button>
+    <button class="theme-btn" onclick="toggleTheme()">Changer de thème</button>
+  </div>
+-->
+  <div id="coords">Cliquez sur la carte pour obtenir les coordonnées.</div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
@@ -64,7 +119,25 @@
 	    var lat = e.latlng.lat.toFixed(6);
             var lng = e.latlng.lng.toFixed(6);
     coordsDiv.textContent = `Coordonnées: "lat": ${lat}, "lng": ${lng},`;
-        });
+	        });
+
+        function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      document.body.classList.toggle('light-mode');
+        }
 </script>
 </body>
 </html>
+
+
