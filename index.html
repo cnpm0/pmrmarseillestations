@@ -7,10 +7,12 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         #map { height: 80vh; }
+        #coords { margin: 20px; font-size: 14px; }
     </style>
 </head>
 <body>
     <div id="map"></div>
+    <div id="coords">Cliquez sur la carte pour obtenir les coordonnées.</div>
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
@@ -22,7 +24,7 @@
 
         // Icônes pour les stations accessibles et non accessibles
         var greenIcon = L.icon({
-            iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+            iconUrl: 'https://cnpm0.github.io/pmrmarseillestations/vert.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
             iconSize: [25, 41],
             iconAnchor: [12, 41],
@@ -31,7 +33,7 @@
         });
 
         var redIcon = L.icon({
-            iconUrl: 'https://www.iconsdb.com/icons/preview/red/marker-xxl.png',
+            iconUrl: 'https://cnpm0.github.io/pmrmarseillestations/rouge.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
             iconSize: [25, 41],
             iconAnchor: [12, 41],
@@ -45,7 +47,7 @@
             .then(data => {
                 data.forEach(station => {
                     var status = station.accessible ? 'accessible' : 'non accessible';
-                    var popupContent = `${station.name} <br> Station ${status} depuis le ${station.date}`;
+                    var popupContent = `${station.name} <br> Station ${status} vérifié depuis le ${station.date}`;
 
                     L.marker([station.lat, station.lng], {icon: station.accessible ? greenIcon : redIcon})
                         .bindPopup(popupContent)
@@ -55,6 +57,14 @@
             .catch(error => {
                 console.error('Erreur lors du chargement des données:', error);
             });
-    </script>
+
+        // Afficher les coordonnées lors d'un clic sur la carte
+        map.on('click', function(e) {
+            var coordsDiv = document.getElementById('coords');
+	    var lat = e.latlng.lat.toFixed(6);
+            var lng = e.latlng.lng.toFixed(6);
+    coordsDiv.textContent = `Coordonnées: "lat": ${lat}, "lng": ${lng},`;
+        });
+</script>
 </body>
 </html>
