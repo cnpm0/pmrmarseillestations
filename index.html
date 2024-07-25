@@ -7,38 +7,22 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         #map { height: 80vh; }
-        #form-container { margin: 20px; }
     </style>
 </head>
 <body>
     <div id="map"></div>
 
-    <div id="form-container">
-        <form id="updateForm">
-            <label for="stationName">Nom de la station :</label>
-            <input type="text" id="stationName" name="stationName" required>
-            <label for="lat">Latitude :</label>
-            <input type="text" id="lat" name="lat" required>
-            <label for="lng">Longitude :</label>
-            <input type="text" id="lng" name="lng" required>
-            <label for="accessible">Accessible :</label>
-            <select id="accessible" name="accessible" required>
-                <option value="true">Oui</option>
-                <option value="false">Non</option>
-            </select>
-            <button type="submit">Ajouter</button>
-        </form>
-    </div>
-
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
+        // Initialiser la carte
         var map = L.map('map').setView([43.296482, 5.36978], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         }).addTo(map);
 
-        var greenIcon = new L.Icon({
-            iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x-green.png',
+        // Icônes pour les stations accessibles et non accessibles
+        var greenIcon = L.icon({
+            iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
             iconSize: [25, 41],
             iconAnchor: [12, 41],
@@ -46,8 +30,8 @@
             shadowSize: [41, 41]
         });
 
-        var redIcon = new L.Icon({
-            iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x-red.png',
+        var redIcon = L.icon({
+            iconUrl: 'https://www.iconsdb.com/icons/preview/red/marker-xxl.png',
             shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
             iconSize: [25, 41],
             iconAnchor: [12, 41],
@@ -56,8 +40,7 @@
         });
 
         // Charger les données depuis le Gist
-        fetch('https://gist.githubusercontent.com/cnpm0/52dd5b884104000f3c34dfdf5653f7f9/raw/7f68b4b1394611f0b6d6244b5488d716cae5d9e8/stations.json
-')
+        fetch('https://gist.githubusercontent.com/cnpm0/52dd5b884104000f3c34dfdf5653f7f9/raw/7f68b4b1394611f0b6d6244b5488d716cae5d9e8/stations.json')
             .then(response => response.json())
             .then(data => {
                 data.forEach(station => {
@@ -67,21 +50,8 @@
                 });
             })
             .catch(error => {
-                console.error('Erreur:', error);
+                console.error('Erreur lors du chargement des données:', error);
             });
-
-        // Gestion de la soumission du formulaire
-        document.getElementById('updateForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const stationName = document.getElementById('stationName').value;
-            const lat = parseFloat(document.getElementById('lat').value);
-            const lng = parseFloat(document.getElementById('lng').value);
-            const accessible = document.getElementById('accessible').value === 'true';
-
-            // Vous pouvez ajouter ici la logique pour envoyer les données vers un backend ou un autre service
-            alert('Données soumises : ' + stationName + ', ' + lat + ', ' + lng + ', ' + accessible);
-        });
     </script>
 </body>
 </html>
