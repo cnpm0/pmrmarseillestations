@@ -56,7 +56,8 @@
         });
 
         // Charger les données depuis le Gist
-        fetch('https://gist.githubusercontent.com/username/gist_id/raw/stations.json')
+        fetch('https://gist.githubusercontent.com/cnpm0/52dd5b884104000f3c34dfdf5653f7f9/raw/7f68b4b1394611f0b6d6244b5488d716cae5d9e8/stations.json
+')
             .then(response => response.json())
             .then(data => {
                 data.forEach(station => {
