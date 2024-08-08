@@ -102,7 +102,7 @@
             .then(data => {
                 data.forEach(station => {
                     var status = station.accessible ? 'accessible' : 'non accessible';
-                    var popupContent = `${station.name} <br> Station ${status} vérifié depuis le ${station.date}
+                    var popupContent = `${station.name} <br> Station ${status} vérifié depuis le ${station.date} <br>
 		    			${station.comments}<br>
 	 				${station.photoUrl ? '<img src="' + station.photoUrl + '" alt="Photo de ' + station.name + '" style="width:100%;max-width:200px;"><br>' : ''}
 					`;
